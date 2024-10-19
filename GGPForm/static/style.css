@@ -1,0 +1,21 @@
+.cinformation {
+	width: 80%;
+}
+
+canvas {
+    border: 1px solid #000;
+    background-color: white;
+}
+
+body {
+    background-image: url("images/background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.btn-check:checked + .btn {
+    color: yellow;
+    border-color: yellow; /* Change the border color when checked */
+}

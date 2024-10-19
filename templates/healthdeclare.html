@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action="#" method="post">
+
+	<div class="container p-5 my-5 bg-dark rounded-5">
+        <p class="text-warning text-center fs-5"> PLEASE READ THE TERMS AND CONDITION </p>
+
+        <ul class="list-group list-group-flush text-center list-group-item-success">
+            <li class="list-group-item"><a href="https://docs.google.com/document/d/12HwjdKj1TFzwPfKsIfnBg428xuLHCLZSSkqfnKl1XyE/" class="list-group-item list-group-item-action rounded-3 text-center shadow">Terms and Condition</a></li>
+            <li class="list-group-item"><a href="https://docs.google.com/document/d/14YNvrO5tuFuvEyoh8Qrok7cwQLBCIfgtEmDgNSNhplM/" class="list-group-item list-group-item-action rounded-3 text-center shadow">Terma dan Syarat
+            </a></li>
+        </ul>        
+    </div>
+
+    <div class="container p-5 my-5 bg-dark rounded-5">
+        <p class="text-warning text-center fs-5"> PLEASE READ THE RISKS ACKNOWLEDGEMENT </p>
+
+        <ul class="list-group list-group-flush text-center list-group-item-success">
+            <li class="list-group-item"><a href="https://docs.google.com/document/d/1eA_BCSpR49gAn9d4pub_bxpUl0Vi211WJqlsFM83jXU/" class="list-group-item list-group-item-action rounded-3 text-center shadow">RISK ACKNOWLEDGEMENT</a></li>
+            <li class="list-group-item"><a href="https://docs.google.com/document/d/14YNvrO5tuFuvEyoh8Qrok7cwQLBCIfgtEmDgNSNhplM/" class="list-group-item list-group-item-action rounded-3 text-center shadow">Terma dan Syarat
+            </a></li>
+        </ul>        
+    </div>
+
+	<div class="container p-5 my-5 bg-dark rounded-5">
+		<p class="text-warning text-center fs-5"> HAVE YOU EVER SUFFERED AND OR CURRENTLY SUFFERING ANY OF THE FOLLOWING? </p>
+
+		<ul class="list-group list-group-item-success">
+		  	<li class="list-group-item">
+		    	<input class="form-check-input me-1" type="checkbox" value="asthma or wheezing" name="health_fields[]" id="asthma">
+				<label class="form-check-label stretched-link" for="asthma">asthma or wheezing</label>
+			</li>
+			<li class="list-group-item">
+				<input class="form-check-input me-1" type="checkbox" name="health_fields[]" value="Brain, Spinal cord, or Nervous disorder" id="braindisorder">
+				<label class="form-check-label stretched-link" for="braindisorder">Brain, Spinal cord, or Nervous disorder</label>
+			</li>
+			<li class="list-group-item">
+				<input class="form-check-input me-1" type="checkbox" name="health_fields[]" value="Chest Surgery" id="chestsurgery">
+				<label class="form-check-label stretched-link" for="chestsurgery">Chest Surgery</label>
+			</li>
+			<li class="list-group-item">
+				<input class="form-check-input me-1" type="checkbox" name="health_fields[]" value="Chronic Bronchitis or Persistent Chest Complaints" id="bronchitis">
+				<label class="form-check-label stretched-link" for="bronchitis">Chronic Bronchitis or Persistent Chest Complaints</label>
+			</li>
+			<li class="list-group-item">
+				<input class="form-check-input me-1" type="checkbox" name="health_fields[]" value="Epilepsy / Fainting / Seizures / Blackouts" id="epilepsy">
+				<label class="form-check-label stretched-link" for="epilepsy">Epilepsy / Fainting / Seizures / Blackouts</label>
+			</li>
+			<li class="list-group-item">
+				<input class="form-check-input me-1" type="checkbox" name="health_fields[]" value="Heart disease of any kind" id="heartdisease">
+				<label class="form-check-label stretched-link" for="heartdisease">Heart disease of any kind</label>
+			</li>
+			<li class="list-group-item">
+				<input class="form-check-input me-1" type="checkbox" name="health_fields[]" value="Major / Minor Injury or Surgery" id="majorinjury">
+				<label class="form-check-label stretched-link" for="majorinjury">Major / Minor Injury or Surgery</label>
+			</li>
+			<li class="list-group-item">
+				<input class="form-check-input me-1" type="checkbox" name="health_fields[]" value="Pregnant" id="pregnant">
+				<label class="form-check-label stretched-link" for="pregnant">Pregnant</label>
+			</li>
+		</ul>
+
+	</div>
+
+	<div class="container p-5 my-5 bg-dark rounded-5">
+		<p class="text-warning text-center fs-5"> BY PRESSING NEXT, I AGREE THAT I HAVE BEEN OFFERED TO NOT PARTICIPATE IN AN ACTIVITY DUE TO A HEALTH CONDITION THAT I MAY OR MAY NOT HAVE </p>
+	</div>
+
+	<div class="container p-5 my-5 bg-dark rounded-5">
+	    <div class="form-floating mb-3 mt-3">
+	        <div class="d-grid gap-2">
+	            <input type="submit" class="btn btn-outline-warning btn-block" value="Next">
+	        </div>
+	    </div>
+	</div>
+</form>
+
+{% endblock %}

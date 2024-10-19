@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form action="#" method="post" id="signatureForm">
+    <div class="container p-5 my-5 bg-dark rounded-5">
+
+        
+        <div class="list-group">
+            <p class="text-warning text-center fs-5"> CLICK BELOW TO READ THE RISK ACKNOWLEDGEMENT </p>
+            <a href="https://docs.google.com/document/d/1eA_BCSpR49gAn9d4pub_bxpUl0Vi211WJqlsFM83jXU/" class="list-group-item list-group-item-action rounded-3 text-center shadow"> Risk Acknowledgement </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container p-5 my-5 bg-dark rounded-5">
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="acknowledgement" name="acknowledgement" value="yes" checked>
+            <label class="form-check-label text-white" for="mySwitch">I UNDERSTAND THAT THERE ARE RISKS INVOLVED IN THIS ACTIVITY, AND I WISH TO CONTINUE.</label> 
+        </div>
+    </div>
+
+    <div class="container p-5 my-5 bg-dark rounded-5">
+        <p class="text-warning text-center fs-5"> THIS SECTION IS TO BE FILLED OUT BY THE PARENT OR LEGAL GUARDIAN OF THE PARTICIPANT </p>
+
+        <div class="form-floating mb-3 mt-3">
+            <input type="text" name="gname" id="gname" class="form-control" placeholder="Guardian's Name" required>
+            <label for="gname" class="form-label">Guardian's Name</label>
+        </div>
+
+        <div class="form-floating mb-3 mt-3">
+            <input type="number" name="gcontact" id="gcontact" class="form-control" placeholder="Guardians's Contact Number" required>
+            <label for="gcontact" class="form-label">Guardian's Contact Number</label>
+        </div>
+    </div>
+
+    <div class="container p-5 my-5 bg-dark rounded-5"> 
+        <h3 class="text-warning text-center"> I, THE UNDERSIGNED, HEREBY DECLARE AND AFFIRM THAT</h3>
+        <p class="text-warning text-center fs-5"> I AM THE PARENT OR LEGAL GUARDIAN OF THE PARTICIPANT. I HEREBY SIGN BELOW IN AGREEMENT FOR THE RELEASE AND LIABILITY AND ASSUMPTION OF RISK FOR MY CHILD / WARD NAMED </p> 
+
+        <div class="text-center">
+            <canvas id="gsignaturepad" crossOrigin="anonymous" width="300" height="300" style="border: 1px solid #000;"></canvas><br>
+            <button type="button" id="clearunder18" class="btn btn-outline-warning">Clear Signature</button>
+        </div>
+        <input type="hidden" id="gsignature" name="gsignature">
+    </div>
+    <div class="container p-5 my-5 bg-dark rounded-5">
+        <div class="form-floating mb-3 mt-3">
+            <div class="d-grid gap-2">
+                <input id="submit" type="submit" class="btn btn-outline-warning btn-block" value="Next">
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

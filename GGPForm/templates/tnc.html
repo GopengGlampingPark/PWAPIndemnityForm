@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action="#" method="post" id="signatureForm">
+
+    <div class="container p-5 my-5 bg-dark rounded-5">
+        <h3 class="text-warning text-center">BY SIGNING BELOW, I, THE UNDERSIGNED, CONFIRM THAT:</h3>
+        <p class="text-warning text-center"> 
+        I HAVE CAREFULLY READ AND UNDERSTOOD THE <a href="https://docs.google.com/document/d/12HwjdKj1TFzwPfKsIfnBg428xuLHCLZSSkqfnKl1XyE" target="_blank">
+        TERMS AND CONDITION
+        </a> /
+        <a href="https://docs.google.com/document/d/14YNvrO5tuFuvEyoh8Qrok7cwQLBCIfgtEmDgNSNhplM/edit" target="_blank"> TERMA DAN SYARAT </a>.
+        I ACKNOWLEDGE THAT I AM SIGNING THIS DOCUMENT VOLUNTARILY AND WITHOUT ANY EXTERNAL REPRESENTATIONS OR ASSURANCES REGARDING ITS LEGAL IMPLICATIONS. BY DOING SO, I AGREE TO BE BOUND BY ALL TERMS SET FORTH HEREIN
+        </p>
+        <div class="text-center">
+            <canvas id="psignaturepad" crossOrigin="anonymous" width="300" height="300" style="border: 1px solid #000;"></canvas><br>
+            <button type="button" id="clearTnC" class="btn btn-outline-warning">Clear Signature</button>
+        </div>
+        <input type="hidden" id="psignature" name="psignature">
+    </div>
+    <div class="container p-5 my-5 bg-dark rounded-5">
+        <div class="form-floating mb-3 mt-3">
+            <div class="d-grid gap-2">
+                <input id="submit" type="submit" class="btn btn-outline-warning btn-block" value="SUBMIT">
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

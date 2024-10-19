@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action="#" method="post">
+	<div class="container p-5 my-5 bg-dark rounded-5">
+
+		<p class="text-warning text-center fs-5"> PLEASE CHOOSE YOUR BOOKING DATES </p>
+
+		<div class="form-floating mb-3 mt-3">
+            <input type="date" name="checkin" id="checkin" class="form-control" required>
+            <label for="checkin" class="form-label">Check In Date</label>
+        </div>
+
+        <div class="form-floating mb-3 mt-3">
+            <input type="date" name="checkout" id="checkout" class="form-control" required>
+            <label for="checkout" class="form-label">Check Out Date</label>
+        </div>
+	</div>
+
+	<div class="container p-5 my-5 bg-dark rounded-5">
+        <div class="form-floating mb-3 mt-3">
+            <div class="d-grid gap-2">
+                <input type="submit" class="btn btn-outline-warning btn-block" value="Next">
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock %}
