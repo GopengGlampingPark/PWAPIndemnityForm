@@ -86,7 +86,7 @@ lock = Lock()
 @app.route("/genbookid", methods=["POST", "GET"])
 def genbookid():
 	if request.method == "POST":
-		C_bookingID = generate_sequential_id("GroupInformation", "PWAPBOOKID_")
+		C_bookingID = generate_sequential_id("PWAPBOOKID_")
 		session['bookingName'] = request.form.get('bookingName')  # Ensure 'groupName' comes from the form
 		session['C_bookingID'] = C_bookingID
 		bookingName = session.get("bookingName")
@@ -268,7 +268,7 @@ def thankyou():
 
 ######################################################################################################################## SHEET RELATED
 def insert_to_sheet():
-	C_UniqueID = generate_sequential_id("Client_Information" , "PWAPID_")
+	C_UniqueID = generate_sequential_id("PWAPID_")
 	
 	C_bookingID = session["bookingID"]  # Use the existing bookingID from the session if it's not None or empty
 
@@ -361,7 +361,7 @@ def insert_to_sheet():
 			psigsaved,
 			gsigsaved
 		]]
-		print("TNC INFO : ", terms_and_conditions_info)
+		print("TNC INFO : ", terms_and_conditions_info) 
 		append_to_sheet('Signatures', terms_and_conditions_info)
 	else:
 		terms_and_conditions_info = [[
@@ -419,24 +419,24 @@ def save_signature(signature):
 ######################################################################################################################## ID RELATED
 
 # Step 2: Load the current ID from Redis
-def load_id_storage(sheet_name):
+def load_id_storage(prefix):
 	""" Retrieve the current ID for a given sheet name from Redis """
-	current_id = r.get(sheet_name)  # Fetch current ID from Redis
+	current_id = r.get(prefix)  # Fetch current ID from Redis
 	return int(current_id) if current_id else 0  # Return 0 if no entry exists
 
 # Step 3: Save the updated ID back into Redis
-def save_id_storage(sheet_name, new_id):
+def save_id_storage(prefix, new_id):
 	""" Save the updated ID for the given sheet name in Redis """
-	r.set(sheet_name, new_id)  # Store the new ID in Redis
+	r.set(prefix, new_id)  # Store the new ID in Redis
 
 # Step 4: Generate a new sequential ID
-def generate_sequential_id(sheet_name, prefix):
+def generate_sequential_id(prefix):
 	""" Generate a new sequential ID with the given prefix """
 	# Load the current ID from Redis
-	current_id = load_id_storage(sheet_name) + 1  # Increment the ID
+	current_id = load_id_storage(prefix) + 1  # Increment the ID
 	new_id = f"{prefix}{current_id}"
 	# Save the updated ID back to Redis
-	save_id_storage(sheet_name, current_id)
+	save_id_storage(prefix, current_id)
 	return new_id
 
 ######################################################################################################################## HEALTH CONDITION EMAILS

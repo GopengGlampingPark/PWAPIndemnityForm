@@ -5,7 +5,7 @@
 	<div class="container p-5 my-5 bg-dark rounded-5">
 	    <div class="row g-4 align-items-center">
 	    	<div class="col-auto">
-			    <span id="passwordHelpInline" class="form-text text-warning">
+			    <span id="BOOKGEN" class="form-text text-warning">
 			    	PLEASE INSERT THE GROUP NAME HERE AND THEN GENERATE BOOKING ID :
 			    </span>
 			</div>
@@ -18,7 +18,7 @@
 			<div class="col-auto text-center">
 				<input class="form-control user-select-all" type="text" value="{% if C_bookingID %} {{ C_bookingID }} {% endif %}" aria-label="CbookingID" disabled readonly>
 				<div class="">
-				    <span id="passwordHelpInline" class="form-text text-warning">
+				    <span id="BOOKDIS" class="form-text text-warning">
 						{% if bookingName %} {{ bookingName }} {% endif %}
 				    </span>
 				</div>
