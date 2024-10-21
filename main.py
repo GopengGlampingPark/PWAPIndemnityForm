@@ -650,8 +650,8 @@ def submit_form(C_UniqueID):
 	print("E Cert replacements prepared")
 
 	# Paths to your original docx files
-	form_docx_path = "reform/GGP_Form.docx"  # Path to the first document
-	e_cert_docx_path = "e-certs/GGPCertificate.docx"  # Path to the second document
+	form_docx_path = "reform/PWAP_Form.docx"  # Path to the first document
+	e_cert_docx_path = "e-certs/PWAPcertificate2024.docx"  # Path to the second document
 	print("Paths set up for document editing")
 
 	# Document editing in memory
