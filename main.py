@@ -270,7 +270,7 @@ def thankyou():
 def insert_to_sheet():
 	C_UniqueID = generate_sequential_id("PWAPID_")
 	
-	C_bookingID = session["bookingID"]  # Use the existing bookingID from the session if it's not None or empty
+	C_bookingID = session.get("C_bookingID")  # Use the existing bookingID from the session if it's not None or empty
 
 	print(f"sending E-Cert")
 	
