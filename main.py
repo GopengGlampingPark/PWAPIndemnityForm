@@ -125,7 +125,7 @@ def indemnityform():
 		for field in formfield:
 			session[field] = request.form[field]
 
-		if session.get("age") == "under12" or session.get("age") == "13-17":
+		if session.get("age") == "below12" or session.get("age") == "13-17":
 			return redirect(url_for("under18"))
 		else:
 			if session["staynot"] == "stayinguest":
@@ -159,7 +159,7 @@ def under18():
 			return jsonify({'error': 'Failed to receive signature'}), 400  # Minimal error response
 
 	elif "age" in session:
-		if session.get("age") == "under12" or session.get("age") == "13-17":
+		if session.get("age") == "below12" or session.get("age") == "13-17":
 			return render_template("under18.html")
 	
 	else:
@@ -312,7 +312,7 @@ def insert_to_sheet():
 	print("cleintinfo : ", clientinfo)
 	append_to_sheet('Client_Information', clientinfo)
 
-	if session.get("age") == "under12" or session.get("age") == "13-17":
+	if session.get("age") == "below12" or session.get("age") == "13-17":
 		under18info = [[
 			C_UniqueID,
 			session.get("acknowledgement"),
@@ -361,7 +361,7 @@ def insert_to_sheet():
 			psigsaved,
 			gsigsaved
 		]]
-		print("TNC INFO : ", terms_and_conditions_info) 
+		print("TNC INFO : ", terms_and_conditions_info)
 		append_to_sheet('Signatures', terms_and_conditions_info)
 	else:
 		terms_and_conditions_info = [[
@@ -371,10 +371,14 @@ def insert_to_sheet():
 		print("TNC INFO : ", terms_and_conditions_info)
 		append_to_sheet('Signatures', terms_and_conditions_info)
 
+	print(f"sending health fields email")
 	if session.get("health_fields"):
 		health_emails(C_UniqueID)
+		print(f"health fields email sent!")
 
+	print(f"submitting form")
 	submit_form(C_UniqueID)
+	print(f"form submitted")
 
 def append_to_sheet(sheet_name, values):
 	# Open the specified sheet
@@ -531,29 +535,25 @@ def edit_docx_in_memory(file_path, replacements):
 		# Fix any padding issues
 		signature_base64 = fix_base64_padding(signature_base64)
 
-		if is_valid_base64(signature_base64):
+		if not signature_base64 or not is_valid_base64(signature_base64):
+			print("Invalid or missing signature, skipping signature insertion.")
+		else:
 			try:
-				# Decode the base64 string and save it as a temporary image file
 				signature_data = base64.b64decode(signature_base64)
 				signature_image_path = "temp_signature.png"
 
-				# Save the decoded image data to a file (temporarily)
+				# Save and insert the image
 				with open(signature_image_path, "wb") as f:
 					f.write(signature_data)
 				print("Saved temp_signature")
 
-				# Insert the signature image into the document
+				# Insert image at placeholder
 				for paragraph in doc.paragraphs:
 					if "<<SIGNATURE>>" in paragraph.text:
-						paragraph.text = paragraph.text.replace("<<SIGNATURE>>", "")  # Remove the placeholder
+						paragraph.text = paragraph.text.replace("<<SIGNATURE>>", "")
 						insert_image_at_paragraph(paragraph, signature_image_path)
-
 			except Exception as e:
 				print(f"Error while processing signature: {e}")
-				return None  # Handle the error gracefully and return early
-		else:
-			print("Invalid base64 signature string.")
-			return None
 
 	# Process replacements in the document
 	for paragraph in doc.paragraphs:
@@ -596,6 +596,7 @@ def submit_form(C_UniqueID):
 		"LOF": "LEAP OF FAITH",
 		"WCLIMG": "WALL CLIMBING"
 	}
+	print(f"activity mapped")
 
 	address_parts = [
 		session.get('lineaddress', ''),
@@ -603,23 +604,29 @@ def submit_form(C_UniqueID):
 		session.get('state', ''),
 		session.get('country', '')
 	]
+	print(f"address part set")
 
 	activities_info = session.get('activities', [])
-	activity_parts = [
-		activity_mapping[activity['AN']]  # Map short code to full name
-		for activity in activities_info if activity['AN'] in activity_mapping
-	]
 
+	# Map short code to full name (or fallback to activity['AN'] if not found in mapping)
 	activity_parts = [
-		f"{activity[0]}"  # Using formatted string for each activity name
+		activity_mapping.get(activity['AN'], activity['AN'])  # Default to activity['AN'] if mapping not found
 		for activity in activities_info
 	]
-	print("Address components retrieved")
+	formatted_activity = '\n'.join(activity_parts)  # Join all activities by newline
+	print("Formatted activity set")
 
-	# Filter out any empty strings
+	# Address processing
+	address_parts = [
+		session.get('lineaddress', ''),
+		session.get('postcode', ''),
+		session.get('state', ''),
+		session.get('country', '')
+	]
 	address = ', '.join(part for part in address_parts if part).strip()
+	print(f"Address components retrieved: {address}")
 
-	# Define your replacements for the first document
+	# Document replacements for the form
 	form_replacements = {
 		"<<NAME>>": session.get("fullname"),
 		"<<NRIC>>": session.get("NRIC"),
@@ -634,24 +641,22 @@ def submit_form(C_UniqueID):
 	}
 	print("Form replacements prepared")
 
-	# Paths to your original docx files
-	form_docx_path = "reform/GGP_Form.docx"  # Path to the first document
-	e_cert_docx_path = "e-certs/GGPCertificate.docx"  # Path to the second document
-	print("Paths set up for document editing")
-
-	# Edit the documents in memory
-	edited_form_docx_io = edit_docx_in_memory(form_docx_path, form_replacements)
-	print("Form document edited")
-
-	formatted_activity = '\n'.join(activity_parts)
-
-	# Define your replacements for the second document
+	# Document replacements for the e-cert
 	e_cert_replacements = {
 		"<<NAME>>": session.get("fullname"),
 		"<<NRIC>>": session.get("NRIC"),
 		"<<ACTIVITY>>": formatted_activity
 	}
 	print("E Cert replacements prepared")
+
+	# Paths to your original docx files
+	form_docx_path = "reform/GGP_Form.docx"  # Path to the first document
+	e_cert_docx_path = "e-certs/GGPCertificate.docx"  # Path to the second document
+	print("Paths set up for document editing")
+
+	# Document editing in memory
+	edited_form_docx_io = edit_docx_in_memory(form_docx_path, form_replacements)
+	print("Form document edited")
 
 	edited_e_cert_docx_io = edit_docx_in_memory(e_cert_docx_path, e_cert_replacements)
 	print("E cert document edited")
@@ -665,7 +670,7 @@ def submit_form(C_UniqueID):
 	subject = "Confirmation of Your Indemnity Form Submission"
 
 	# Check if health_fields is empty or consists of only whitespace
-	if not session.get("health_fields", "").strip():
+	if not session.get("health_fields"):
 		body = (
 			f"Dear {fullname},\n\n"
 			"Thank you for submitting your online indemnity form for the upcoming adventure activity. "
