@@ -86,9 +86,9 @@ lock = Lock()
 @app.route("/genbookid", methods=["POST", "GET"])
 def genbookid():
 	if request.method == "POST":
-		C_bookingID = generate_sequential_id("PWAPBOOKID_")
+		genbookid = generate_sequential_id("PWAPBOOKID_")
 		session['bookingName'] = request.form.get('bookingName')  # Ensure 'groupName' comes from the form
-		session['C_bookingID'] = C_bookingID
+		session['genbookid'] = genbookid
 		bookingName = session.get("bookingName")
 		print(f"booking name : {bookingName}")
 
@@ -103,7 +103,7 @@ def genbookid():
 
 		thread = Thread(target=rungroupintosheet)
 		thread.start()
-		return render_template("bookingID.html", C_bookingID=C_bookingID, bookingName=bookingName)
+		return render_template("bookingID.html", genbookid=genbookid, bookingName=bookingName)
 	return render_template("bookingID.html")
 
 def insert_group_to_sheet():
@@ -270,7 +270,7 @@ def thankyou():
 def insert_to_sheet():
 	C_UniqueID = generate_sequential_id("PWAPID_")
 	
-	C_bookingID = session.get("C_bookingID")  # Use the existing bookingID from the session if it's not None or empty
+	C_bookingID = session.get("bookingID")  # Use the existing bookingID from the session if it's not None or empty
 
 	print(f"sending E-Cert")
 	
