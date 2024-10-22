@@ -16,7 +16,7 @@
 				<input id="submit" type="submit" class="btn btn-outline-warning btn-block" value="Generate Booking ID :">
 			</div>
 			<div class="col-auto text-center">
-				<input class="form-control user-select-all" type="text" value="{% if C_bookingID %} {{ C_bookingID }} {% endif %}" aria-label="CbookingID" disabled readonly>
+				<input class="form-control user-select-all" type="text" value="{% if genbookid %} {{ genbookid }} {% endif %}" aria-label="CbookingID" disabled readonly>
 				<div class="">
 				    <span id="BOOKDIS" class="form-text text-warning">
 						{% if bookingName %} {{ bookingName }} {% endif %}
