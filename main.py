@@ -348,7 +348,7 @@ def insert_to_sheet():
 	# Append activities if available
 	if session.get("activities"):
 		activities_info = [
-			[C_UniqueID, C_bookingID, activity['AN'], activity['AD'], activity['AT']]
+			[C_UniqueID, C_bookingID, session.get("fullname"), activity['AN'], activity['AD'], activity['AT']]
 			for activity in session['activities'] if isinstance(activity, dict)
 		]
 
@@ -451,6 +451,22 @@ def generate_sequential_id(prefix):
 ######################################################################################################################## HEALTH CONDITION EMAILS
 def health_emails(clientID):
 
+	C_bookingID = session.get("C_bookingID")
+	sheet = spreadsheet.worksheet("GroupInformation")
+	ids = sheet.col_values(1)
+
+	try:
+		# Find the index (row number) where the ID matches
+		row_index = ids.index(C_bookingID) + 1  # +1 because gspread uses 1-based index
+		
+		# Get the corresponding value in column B for that row
+		BookingName = sheet.cell(row_index, 2).value  # Column B is column 2
+	
+	except ValueError:
+		# Handle the case where the booking ID is not found
+		print(f"Booking ID {C_bookingID} not found in the sheet or walk-in client.")
+		BookingName = None  # Set BookingName to None if not found
+
 	print(f"sending health emails")
 	activities_info = [
 		[activity['AN'], activity['AD'], activity['AT']]
@@ -463,20 +479,29 @@ def health_emails(clientID):
 	msg = Message(
 			subject="Health Conditions Notification",
 			sender=app.config['MAIL_USERNAME'],
-			recipients=['pwadventurepark@gmail.com'],
+			recipients=['operationgopengglampingpark@gmail.com'],
 		)
 
 	print("setting up email body")
+
 	email_body = (
 		"Hello,\n\n"
-		f"Please be informed that {clientName} with the id {clientID} has submitted their indemnity form for the upcoming adventure activity.\n"
+		f"Please be informed that {clientName} with the ID {clientID}"
+	)
+
+	# Conditionally add BookingName if it exists
+	if BookingName:
+		email_body += f" (Booking Name: {BookingName})"
+
+	email_body += (
+		" has submitted their indemnity form for the upcoming adventure activity.\n"
 		"They have declared certain medical conditions that may require your attention during the trip.\n\n"
-		"Kindly review the details provided in the form and take any necessary precautions to ensure their safety and well-being throughout the activity. \n"
+		"Kindly review the details provided in the form and take any necessary precautions to ensure their safety and well-being throughout the activity.\n"
 		"If you need additional information or support, feel free to reach out to the management team.\n\n"
 		"Here are the details of the participants:\n\n"
-		f"Name : {clientName}\n\n"
-		f"Unique ID : {clientID}\n\n"
-		f"Phone Number : {CContact}\n\n"
+		f"Name: {clientName}\n"
+		f"Unique ID: {clientID}\n"
+		f"Phone Number: {CContact}\n"
 	)
 
 	email_body += f"has these health conditions\n\n"
