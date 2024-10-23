@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form action="#" method="post" id="signatureForm">
+<form action="#" method="post" onsubmit="disableSubmitButton();" id="signatureForm">
 
     <div class="container p-5 my-5 bg-dark rounded-5">
         <h3 class="text-warning text-center">BY SIGNING BELOW, I, THE UNDERSIGNED, CONFIRM THAT:</h3>
@@ -27,4 +27,14 @@
         </div>
     </div>
 </form>
+
+<script>
+    // JavaScript function to disable the submit button
+    function disableSubmitButton() {
+        const submitButton = document.getElementById('submit');
+        submitButton.disabled = true;  // Disable the button
+        submitButton.value = 'Submitting...';  // Change the button text
+    }
+</script>
+
 {% endblock %}

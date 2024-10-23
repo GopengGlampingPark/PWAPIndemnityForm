@@ -51,6 +51,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 
                 formSubmitted = true; // Set flag to true to prevent further submissions
 
+                const submitButton = document.getElementById('submit');
+                submitButton.disabled = true;  // Disable the button
+                submitButton.value = 'Submitting...';  // Optionally change the button text
+
                 // Send data via AJAX
                 const formData = new FormData();
                 formData.append(signatureInput, signatureData); // Append signature data to form
