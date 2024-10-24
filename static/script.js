@@ -42,6 +42,19 @@ document.addEventListener('DOMContentLoaded', function () {
             return; // Exit if the form has already been submitted
         }
 
+        if (isUnder18) {
+            const gname = document.getElementById('gname');
+            const gcontact = document.getElementById('gcontact');
+
+            if (gname.isEmpty()) {
+                alert("Please provide the Guardian's Name.");
+            }
+
+            if (gcontact.isEmpty()) {
+                alert("Please provide the Guardian's contact.");
+            }
+        }
+
         try {
             if (!sigpad.isEmpty()) {
                 // Save as PNG for better quality
@@ -89,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 xhr.send(formData); // Send the form data via AJAX
             } else {
-                console.warn('Please provide a signature.'); // Log a warning instead of alert
+                alert('Please provide a signature.');
             }
         } catch (error) {
             console.error('Error capturing signature:', error);
